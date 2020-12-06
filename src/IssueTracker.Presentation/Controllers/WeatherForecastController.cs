@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Presentation.Controllers
+namespace IssueTracker.Presentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]

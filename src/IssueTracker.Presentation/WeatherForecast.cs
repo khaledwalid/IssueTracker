@@ -1,6 +1,6 @@
 using System;
 
-namespace Presentation
+namespace IssueTracker.Presentation
 {
     public class WeatherForecast
     {
