@@ -4,6 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\IssueTracker.Application\IssueTracker.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\IssueTracker.Persistence\IssueTracker.Persistence.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
 
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
@@ -19,9 +26,9 @@
     </PackageReference>
   </ItemGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\Core\IssueTracker.Application\IssueTracker.Application.csproj" />
-    <ProjectReference Include="..\Infrastructure\IssueTracker.Persistence\IssueTracker.Persistence.csproj" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

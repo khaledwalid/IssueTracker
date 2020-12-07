@@ -2,7 +2,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using IssueTracker.Application.Interfaces;
+using IssueTracker.Domain.Entities;
 using IssueTracker.Persistence.Context;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +14,7 @@ namespace IssueTracker.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceProvider AddPersistence(this IServiceCollection services , IConfiguration configuration ,
+        public static IServiceProvider AddPersistence(this IServiceCollection services, IConfiguration configuration,
             DbContextOptions dbContextOptions = null)
         {
             var container = new ContainerBuilder();
@@ -25,6 +27,10 @@ namespace IssueTracker.Persistence
                             , Array.Empty<string>());
 
                     }));
+            services.AddIdentityCore<User>(options => { });
+            new IdentityBuilder(typeof(User), typeof(Role), services)
+                .AddEntityFrameworkStores<IssueTrackerDbContext>();
+
             services.AddScoped<IIssueTrackerDbContext>(provider => provider.GetService<IssueTrackerDbContext>());
             container.Populate(services);
             return new AutofacServiceProvider(container.Build());
