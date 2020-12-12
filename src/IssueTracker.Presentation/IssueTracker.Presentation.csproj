@@ -7,6 +7,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\IssueTracker.Common\IssueTracker.Common.csproj" />
     <ProjectReference Include="..\Core\IssueTracker.Application\IssueTracker.Application.csproj" />
     <ProjectReference Include="..\Infrastructure\IssueTracker.Persistence\IssueTracker.Persistence.csproj" />
   </ItemGroup>
@@ -24,11 +25,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

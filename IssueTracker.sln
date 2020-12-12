@@ -17,13 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Domain", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{B0209831-E5D3-422A-BF4B-932FF4B4FC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Persistence", "src\Infrastructure\IssueTracker.Persistence\IssueTracker.Persistence.csproj", "{A2EE4025-2C1A-492A-A3CB-1A976D80354F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Persistence", "src\Infrastructure\IssueTracker.Persistence\IssueTracker.Persistence.csproj", "{A2EE4025-2C1A-492A-A3CB-1A976D80354F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Infrastructure", "src\Infrastructure\IssueTracker.Infrastructure\IssueTracker.Infrastructure.csproj", "{812F0C1B-1EAB-4DBA-8FA9-1954466B9725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Infrastructure", "src\Infrastructure\IssueTracker.Infrastructure\IssueTracker.Infrastructure.csproj", "{812F0C1B-1EAB-4DBA-8FA9-1954466B9725}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4B7CC96D-77EA-4D0E-8BE6-D4474A4C6CF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Common", "src\Common\IssueTracker.Common\IssueTracker.Common.csproj", "{CE79B0DD-8EF2-471D-9EE5-DAC26C5E7F09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Common", "src\Common\IssueTracker.Common\IssueTracker.Common.csproj", "{CE79B0DD-8EF2-471D-9EE5-DAC26C5E7F09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

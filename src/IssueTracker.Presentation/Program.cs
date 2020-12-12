@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using IssueTracker.WebHostExtensions;
 
 namespace IssueTracker.Presentation
 {
@@ -61,9 +60,7 @@ namespace IssueTracker.Presentation
                 });
         }
     }
-}
-namespace IssueTracker.WebHostExtensions
-{
+
     public static class WebHostExtensions
     {
         public static IWebHost MigrateDbContext<TContext>(this IWebHost webHost, Action<TContext, IServiceProvider> seeder) where TContext : DbContext

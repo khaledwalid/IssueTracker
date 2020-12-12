@@ -7,10 +7,13 @@ namespace IssueTracker.Presentation
     {
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddMvcCore();
             services.AddApplication();
             services.AddPersistence(Configuration);
             services.AddControllers();
+            services.AddControllersWithViews();
+
         }
 
     }
