@@ -17,15 +17,15 @@ namespace IssueTracker.Persistence
 {
     public static class DependencyInjection
     {
+
         public static IServiceProvider AddPersistence(this IServiceCollection services, IConfiguration configuration,
-            DbContextOptions dbContextOptions = null)
+            string migrationsAssembly = null)
         {
             var container = new ContainerBuilder(); // create auto fac
-            
             // create db context
             services.AddDbContext<IssueTrackerDbContext>(options =>
             {
-                options.UseInMemoryDatabase("Memory");
+                //options.UseInMemoryDatabase("Memory");
                 options.UseNpgsql(
                     configuration.GetConnectionString("Default"),
                     sqlOptions =>
@@ -45,10 +45,12 @@ namespace IssueTracker.Persistence
             new IdentityBuilder(typeof(User), typeof(Role), services)
                 .AddEntityFrameworkStores<IssueTrackerDbContext>()
                 .AddDefaultTokenProviders();
+
             services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "IdentityServer.Cookie";
                 config.LoginPath = "/Auth/Login";
+                config.LogoutPath = "/Auth/Logout";
             });
             // create identity server
             services.AddAuthentication("Bearer")
@@ -61,11 +63,22 @@ namespace IssueTracker.Persistence
             // configure identity server with in-memory stores, keys, clients and scopes
             services
                 .AddIdentityServer()
+                .AddAspNetIdentity<User>()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(new List<IdentityResource>())
-                .AddInMemoryApiResources(Configuration.GetApiResources())
-                .AddInMemoryClients(Configuration.GetClients());
+                .AddInMemoryApiResources(Configuration.GetApis())
+                .AddInMemoryClients(Configuration.GetClients())
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseNpgsql(configuration.GetConnectionString("Default"),
+                        sql => sql.MigrationsAssembly(typeof(DependencyInjection).Namespace));
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseNpgsql(configuration.GetConnectionString("Default"),
+                        sql => sql.MigrationsAssembly(typeof(DependencyInjection).Namespace));
+                });
 
             services.AddScoped<IIssueTrackerDbContext>(provider => provider.GetService<IssueTrackerDbContext>());
             container.Populate(services);

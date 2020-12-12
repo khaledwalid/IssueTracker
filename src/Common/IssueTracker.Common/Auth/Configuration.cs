@@ -1,108 +1,164 @@
 ﻿using System.Collections.Generic;
-using System.Security.Claims;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
 
 namespace IssueTracker.Common.Auth
 {
-    public class Configuration
+    public static class Configuration
     {
-        // scopes define the API resources in your system
-        public static IEnumerable<ApiResource> GetApiResources()
-        {
-            return new List<ApiResource>
-            {
-                new ApiResource("api1", "My API")
-            };
-        }
-
-        public static IEnumerable<IdentityResource> GetIdentityResources()
-        {
-            return new List<IdentityResource>
+        public static IEnumerable<IdentityResource> GetIdentityResources() =>
+            new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
-            };
-        }
-
-        // client want to access resources (aka scopes)
-        public static IEnumerable<Client> GetClients()
-        {
-            return new List<Client>
-            {
-                new Client
+                //new IdentityResources.Profile(),
+                new IdentityResource
                 {
-                    ClientId = "client",
+                    Name = "rc.scope",
+                    UserClaims =
+                    {
+                        "rc.garndma"
+                    }
+                }
+            };
+
+        public static IEnumerable<ApiResource> GetApis() =>
+            new List<ApiResource> {
+                new ApiResource("ApiOne"),
+                new ApiResource("ApiTwo", new string[] { "rc.api.garndma" }),
+            };
+
+        public static IEnumerable<Client> GetClients() =>
+            new List<Client> {
+                new Client {
+                    ClientId = "client_id",
+                    ClientSecrets = { new Secret("client_secret".ToSha256()) },
+
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
+
+                    AllowedScopes = { "ApiOne" }
                 },
-                // resource owner password grant client
-                new Client
-                {
-                    ClientId = "ro.client",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                new Client {
+                    ClientId = "client_id_mvc",
+                    ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
 
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
-                },
-                // OpenID Connect implicit flow client (MVC)
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
 
-                    // where to redirect to after login
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    RedirectUris = { "https://localhost:44322/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:44322/Home/Index" },
 
-                    // where to redirect to after logout
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-
-                    AllowedScopes = new List<string>
-                    {
+                    AllowedScopes = {
+                        "ApiOne",
+                        "ApiTwo",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                    }
-                }
-            };
-        }
+                        //IdentityServerConstants.StandardScopes.Profile,
+                        "rc.scope",
+                    },
 
-        public static List<TestUser> GetUsers()
-        {
-            return new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "alice",
-                    Password = "password",
-
-                    Claims = new []
-                    {
-                        new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
-                    }
+                    // puts all the claims in the id token
+                    //AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowOfflineAccess = true,
+                    RequireConsent = false,
                 },
-                new TestUser
-                {
-                    SubjectId = "2",
-                    Username = "bob",
-                    Password = "password",
-                    Claims = new []
-                    {
-                        new Claim("name", "Bob"),
-                        new Claim("website", "https://bob.com")
-                    }
-                }
+                new Client {
+                    ClientId = "client_id_js",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = { "https://localhost:44345/home/signin" },
+                    PostLogoutRedirectUris = { "https://localhost:44345/Home/Index" },
+                    AllowedCorsOrigins = { "https://localhost:44345" },
+
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "ApiOne",
+                        "ApiTwo",
+                        "rc.scope",
+                    },
+
+                    AccessTokenLifetime = 1,
+
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                },
+
+                new Client {
+                    ClientId = "angular",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = { "http://localhost:4200" },
+                    PostLogoutRedirectUris = { "http://localhost:4200" },
+                    AllowedCorsOrigins = { "http://localhost:4200" },
+
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "ApiOne",
+                    },
+
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                },
+
+                new Client {
+                    ClientId = "wpf",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = { "http://localhost/sample-wpf-app" },
+                    AllowedCorsOrigins = { "http://localhost" },
+
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "ApiOne",
+                    },
+
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                },
+                new Client {
+                    ClientId = "xamarin",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = { "xamarinformsclients://callback" },
+
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "ApiOne",
+                    },
+
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                },
+        new Client {
+                    ClientId = "flutter",
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = { "http://localhost:4000/" },
+                    AllowedCorsOrigins = { "http://localhost:4000" },
+
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "ApiOne",
+                    },
+
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+                },
+
             };
-        }
     }
 }

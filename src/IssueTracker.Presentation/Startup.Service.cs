@@ -10,7 +10,7 @@ namespace IssueTracker.Presentation
 
             services.AddMvcCore();
             services.AddApplication();
-            services.AddPersistence(Configuration);
+            services.AddPersistence(Configuration,migrationsAssembly: typeof(Startup).Assembly.GetName().Name);
             services.AddControllers();
             services.AddControllersWithViews();
 

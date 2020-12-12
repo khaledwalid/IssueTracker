@@ -3,7 +3,7 @@ using IssueTracker.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace IssueTracker.Presentation.Controllers
+namespace IssueTracker.Presentation.Controllers.IdentityServerControllers
 {
     public class HomeController : Controller
     {

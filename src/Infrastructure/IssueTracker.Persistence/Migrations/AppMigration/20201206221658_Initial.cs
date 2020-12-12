@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace IssueTracker.Persistence.Migrations
+namespace IssueTracker.Persistence.Migrations.AppMigration
 {
     public partial class Initial : Migration
     {
