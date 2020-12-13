@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IssueTracker.Domain\IssueTracker.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Issue\Commands\Delete\" />
+    <Folder Include="Features\Issue\Commands\Update\" />
+    <Folder Include="Features\Issue\Queries\" />
+    <Folder Include="Features\Project\Commands\Create\" />
+    <Folder Include="Features\Project\Commands\Delete\" />
+    <Folder Include="Features\Project\Commands\Update\" />
+    <Folder Include="Features\Project\Queries\" />
+  </ItemGroup>
+
+</Project>
