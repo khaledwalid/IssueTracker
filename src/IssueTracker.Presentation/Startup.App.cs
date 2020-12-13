@@ -1,8 +1,10 @@
 using System.Linq;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using IssueTracker.Common.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +23,7 @@ namespace IssueTracker.Presentation
             context.Database.Migrate();
             if (!context.Clients.Any())
             {
-                foreach (var client in Common.Auth.Configuration.GetClients())
+                foreach (var client in IdentityConfig.Clients)
                 {
                     context.Clients.Add(client.ToEntity());
                 }
@@ -29,20 +31,20 @@ namespace IssueTracker.Presentation
             }
 
             if (context.IdentityResources.Any()) return;
-            foreach (var resource in Common.Auth.Configuration.GetIdentityResources())
+            foreach (var resource in IdentityConfig.IdentityResources)
             {
                 context.IdentityResources.Add(resource.ToEntity());
             }
             context.SaveChanges();
 
-            //if (!context.ApiScopes.Any())
-            //{
-            //    foreach (var resource in Configuration.GetApis())
-            //    {
-            //        context.ApiScopes.Add(resource.ToEntity());
-            //    }
-            //    context.SaveChanges();
-            //}
+            if (!context.ApiScopes.Any())
+            {
+                foreach (var resource in IdentityConfig.ApiScopes)
+                {
+                    context.ApiScopes.Add(resource.ToEntity());
+                }
+                context.SaveChanges();
+            }
         }
 
 
@@ -61,16 +63,31 @@ namespace IssueTracker.Presentation
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            //app.UseCors("CorsPolicy");
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
+
             app.UseRouting();
             app.UseStaticFiles();
             app.UseIdentityServer();
+            app.UseAuthorization();
             InitializeDatabase(app);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+
+                options.OAuthClientId("demo_api_swagger");
+                options.OAuthAppName("Demo API - Swagger");
+                options.OAuthUsePkce();
             });
         }
     }

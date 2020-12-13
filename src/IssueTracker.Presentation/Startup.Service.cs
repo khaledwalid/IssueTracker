@@ -1,6 +1,10 @@
 using IssueTracker.Application;
+using IssueTracker.Domain.Entities;
 using IssueTracker.Persistence;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 namespace IssueTracker.Presentation
 {
     public partial class Startup
@@ -10,9 +14,10 @@ namespace IssueTracker.Presentation
 
             services.AddMvcCore();
             services.AddApplication();
-            services.AddPersistence(Configuration,migrationsAssembly: typeof(Startup).Assembly.GetName().Name);
+            services.AddPersistence(Configuration);
             services.AddControllers();
             services.AddControllersWithViews();
+
 
         }
 
