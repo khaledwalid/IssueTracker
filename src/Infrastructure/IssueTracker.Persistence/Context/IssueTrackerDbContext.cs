@@ -19,6 +19,9 @@ namespace IssueTracker.Persistence.Context
             return await base.SaveChangesAsync();
         }
 
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Project> Projects { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

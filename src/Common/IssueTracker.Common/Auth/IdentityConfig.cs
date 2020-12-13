@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IdentityServer4;
 using IdentityServer4.Models;
 
 namespace IssueTracker.Common.Auth
@@ -39,7 +40,39 @@ namespace IssueTracker.Common.Auth
                     RedirectUris = {"http://localhost:5000/swagger/oauth2-redirect.html"},
                     AllowedCorsOrigins = {"http://localhost:5000"},
                     AllowedScopes = {"api1"}
+                },
+                // machine to machine client
+                new Client
+                {
+                    ClientId = "client",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    // scopes that client has access to
+                    AllowedScopes = { "api1" }
+                },
+                
+                // interactive ASP.NET Core MVC client
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:5000/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:5000/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    }
                 }
             };
-    }
+    };
 }

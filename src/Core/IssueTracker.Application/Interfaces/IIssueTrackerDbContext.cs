@@ -9,5 +9,7 @@ namespace IssueTracker.Application.Interfaces
         Task<int> SaveChangesAsync();
         DbSet<User> Users { get; set; }
         DbSet<Role> Roles { get; set; }
+        DbSet<Issue> Issues { get; set; }
+        DbSet<Project> Projects { get; set; }
     }
 }

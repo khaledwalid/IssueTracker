@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using IssueTracker.Persistence.Context;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;

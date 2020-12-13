@@ -25,7 +25,6 @@ namespace IssueTracker.Presentation.Controllers.IdentityControllers.Account
     /// The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
     /// The interaction service provides a way for the UI to communicate with identity server for validation and context retrieval
     /// </summary>
-    [SecurityHeaders]
     [AllowAnonymous]
     public class AccountController : Controller
     {
@@ -91,12 +90,12 @@ namespace IssueTracker.Presentation.Controllers.IdentityControllers.Account
                     await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
 
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                    if (context.IsNativeClient())
-                    {
-                        // The client is native, so this change in how to
-                        // return the response is for better UX for the end user.
-                        return this.LoadingPage("Redirect", model.ReturnUrl);
-                    }
+                    //if (context.IsNativeClient())
+                    //{
+                    //    // The client is native, so this change in how to
+                    //    // return the response is for better UX for the end user.
+                    //    return this.LoadingPage("Redirect", model.ReturnUrl);
+                    //}
 
                     return Redirect(model.ReturnUrl);
                 }
@@ -137,12 +136,12 @@ namespace IssueTracker.Presentation.Controllers.IdentityControllers.Account
 
                     if (context != null)
                     {
-                        if (context.IsNativeClient())
-                        {
-                            // The client is native, so this change in how to
-                            // return the response is for better UX for the end user.
-                            return this.LoadingPage("Redirect", model.ReturnUrl);
-                        }
+                        //if (context.IsNativeClient())
+                        //{
+                        //    // The client is native, so this change in how to
+                        //    // return the response is for better UX for the end user.
+                        //    return this.LoadingPage("Redirect", model.ReturnUrl);
+                        //}
 
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                         return Redirect(model.ReturnUrl);

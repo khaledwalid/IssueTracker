@@ -17,7 +17,6 @@ using Microsoft.Extensions.Logging;
 
 namespace IssueTracker.Presentation.Controllers.IdentityControllers.Account
 {
-    [SecurityHeaders]
     [AllowAnonymous]
     public class ExternalController : Controller
     {
@@ -132,12 +131,12 @@ namespace IssueTracker.Presentation.Controllers.IdentityControllers.Account
 
             if (context != null)
             {
-                if (context.IsNativeClient())
-                {
-                    // The client is native, so this change in how to
-                    // return the response is for better UX for the end user.
-                    return this.LoadingPage("Redirect", returnUrl);
-                }
+                //if (context.IsNativeClient())
+                //{
+                //    // The client is native, so this change in how to
+                //    // return the response is for better UX for the end user.
+                //    return this.LoadingPage("Redirect", returnUrl);
+                //}
             }
 
             return Redirect(returnUrl);

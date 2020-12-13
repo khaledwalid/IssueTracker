@@ -20,7 +20,6 @@ namespace IssueTracker.Presentation.Controllers.IdentityControllers.Consent
     /// <summary>
     /// This controller processes the consent UI
     /// </summary>
-    [SecurityHeaders]
     [Authorize]
     public class ConsentController : Controller
     {
@@ -67,12 +66,12 @@ namespace IssueTracker.Presentation.Controllers.IdentityControllers.Consent
             if (result.IsRedirect)
             {
                 var context = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
-                if (context?.IsNativeClient() == true)
-                {
-                    // The client is native, so this change in how to
-                    // return the response is for better UX for the end user.
-                    return this.LoadingPage("Redirect", result.RedirectUri);
-                }
+                //if (context?.IsNativeClient() == true)
+                //{
+                //    // The client is native, so this change in how to
+                //    // return the response is for better UX for the end user.
+                //    return this.LoadingPage("Redirect", result.RedirectUri);
+                //}
 
                 return Redirect(result.RedirectUri);
             }

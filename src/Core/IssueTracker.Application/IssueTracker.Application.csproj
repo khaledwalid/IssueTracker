@@ -13,4 +13,14 @@
     <ProjectReference Include="..\IssueTracker.Domain\IssueTracker.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Issue\Commands\Delete\" />
+    <Folder Include="Features\Issue\Commands\Update\" />
+    <Folder Include="Features\Issue\Queries\" />
+    <Folder Include="Features\Project\Commands\Create\" />
+    <Folder Include="Features\Project\Commands\Delete\" />
+    <Folder Include="Features\Project\Commands\Update\" />
+    <Folder Include="Features\Project\Queries\" />
+  </ItemGroup>
+
 </Project>

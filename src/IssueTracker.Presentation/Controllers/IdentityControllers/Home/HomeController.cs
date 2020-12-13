@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 
 namespace IssueTracker.Presentation.Controllers.IdentityControllers.Home
 {
-    [SecurityHeaders]
     [AllowAnonymous]
     public class HomeController : Controller
     {

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IssueTracker.Presentation.Controllers.IdentityControllers.Diagnostics
 {
-    [SecurityHeaders]
     [Authorize]
     public class DiagnosticsController : Controller
     {

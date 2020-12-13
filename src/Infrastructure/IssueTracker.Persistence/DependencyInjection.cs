@@ -69,13 +69,13 @@ namespace IssueTracker.Persistence
                     options.Cookie.Domain = "Identity.Application";
                     options.SlidingExpiration = true;
                     options.ExpireTimeSpan = TimeSpan.FromDays(1);
-                });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, options =>
+                }).AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
                 });
+            services.AddControllersWithViews();
+
             // configure identity server with in-memory stores, keys, clients and scopes
             services
                 .AddIdentityServer(options =>
@@ -112,6 +112,7 @@ namespace IssueTracker.Persistence
                 .AddInMemoryApiResources(IdentityConfig.ApiResources)
                 .AddInMemoryApiScopes(IdentityConfig.ApiScopes)
                 .AddInMemoryClients(IdentityConfig.Clients)
+                .AddDeveloperSigningCredential()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = b => b.UseNpgsql(configuration.GetConnectionString("Default"),

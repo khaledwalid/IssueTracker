@@ -21,7 +21,6 @@ using Microsoft.Extensions.Options;
 namespace IssueTracker.Presentation.Controllers.IdentityControllers.Device
 {
     [Authorize]
-    [SecurityHeaders]
     public class DeviceController : Controller
     {
         private readonly IDeviceFlowInteractionService _interaction;
